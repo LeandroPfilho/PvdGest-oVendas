@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Portal PDV{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Dashboard</h1>
+    <a href="{% url 'vendas:criar' %}" class="btn btn-primary">Nova venda</a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card metric-card">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total vendido hoje</p>
+                <h2 class="h4 mb-0">R$ {{ total_vendido_hoje|floatformat:2 }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card metric-card">
+            <div class="card-body">
+                <p class="text-muted mb-1">Vendas hoje</p>
+                <h2 class="h4 mb-0">{{ quantidade_vendas_hoje }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card metric-card">
+            <div class="card-body">
+                <p class="text-muted mb-1">Produtos cadastrados</p>
+                <h2 class="h4 mb-0">{{ quantidade_produtos }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card metric-card">
+            <div class="card-body">
+                <p class="text-muted mb-1">Estoque baixo</p>
+                <h2 class="h4 mb-0">{{ produtos_estoque_baixo }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="list-group">
+    <a class="list-group-item list-group-item-action" href="{% url 'produtos:lista' %}">Produtos</a>
+    <a class="list-group-item list-group-item-action" href="{% url 'vendas:criar' %}">Nova venda</a>
+    <a class="list-group-item list-group-item-action" href="{% url 'vendas:lista' %}">Historico de vendas</a>
+    <a class="list-group-item list-group-item-action" href="{% url 'relatorios:diario' %}">Relatorio diario</a>
+    <a class="list-group-item list-group-item-action" href="{% url 'relatorios:grafico_anual' %}">Grafico anual</a>
+</div>
+{% endblock %}

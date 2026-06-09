@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Nova venda - Portal PDV{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3">Nova venda</h1>
+
+<form method="post" class="card">
+    {% csrf_token %}
+    <div class="card-body">
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Criar venda</button>
+        <a class="btn btn-outline-secondary" href="{% url 'vendas:lista' %}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

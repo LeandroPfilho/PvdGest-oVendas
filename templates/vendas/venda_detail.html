@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes da venda - Portal PDV{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Venda #{{ venda.pk }}</h1>
+    <div class="d-flex gap-2">
+        {% if venda.status == "aberta" %}
+            <a class="btn btn-primary" href="{% url 'vendas:adicionar_item' venda.pk %}">Adicionar itens</a>
+        {% endif %}
+        {% if venda.status == "finalizada" %}
+            <a class="btn btn-outline-danger" href="{% url 'vendas:estornar' venda.pk %}">Estornar</a>
+        {% endif %}
+    </div>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Vendedor</dt><dd class="col-sm-9">{{ venda.vendedor.username }}</dd>
+    <dt class="col-sm-3">Data</dt><dd class="col-sm-9">{{ venda.data_venda|date:"d/m/Y H:i" }}</dd>
+    <dt class="col-sm-3">Pagamento</dt><dd class="col-sm-9">{{ venda.get_forma_pagamento_display }}</dd>
+    <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{ venda.get_status_display }}</dd>
+    <dt class="col-sm-3">Total</dt><dd class="col-sm-9">R$ {{ venda.valor_total|floatformat:2 }}</dd>
+    <dt class="col-sm-3">Observacao</dt><dd class="col-sm-9">{{ venda.observacao|default:"Sem observacao" }}</dd>
+</dl>
+
+<h2 class="h5">Itens da venda</h2>
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preco unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in venda.itens.all %}
+                <tr>
+                    <td>{{ item.produto.nome }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>R$ {{ item.preco_unitario|floatformat:2 }}</td>
+                    <td>R$ {{ item.subtotal|floatformat:2 }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4" class="text-muted text-center">Venda sem itens.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Desativar produto - Portal PDV{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3">Desativar produto</h1>
+<p>Tem certeza que deseja desativar <strong>{{ produto.nome }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Desativar</button>
+    <a class="btn btn-outline-secondary" href="{% url 'produtos:lista' %}">Cancelar</a>
+</form>
+{% endblock %}

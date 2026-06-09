@@ -1,0 +1,82 @@
+[
+  {
+    "model": "produtos.produto",
+    "pk": 1,
+    "fields": {
+      "nome": "Arroz 5kg",
+      "codigo_barras": "789100000001",
+      "descricao": "Pacote de arroz de 5kg.",
+      "preco_custo": "18.00",
+      "preco_venda": "25.00",
+      "quantidade_estoque": 30,
+      "estoque_minimo": 5,
+      "ativo": true,
+      "data_cadastro": "2026-01-01T12:00:00Z",
+      "data_atualizacao": "2026-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "produtos.produto",
+    "pk": 2,
+    "fields": {
+      "nome": "Feijao 1kg",
+      "codigo_barras": "789100000002",
+      "descricao": "Pacote de feijao de 1kg.",
+      "preco_custo": "6.00",
+      "preco_venda": "9.50",
+      "quantidade_estoque": 20,
+      "estoque_minimo": 5,
+      "ativo": true,
+      "data_cadastro": "2026-01-01T12:00:00Z",
+      "data_atualizacao": "2026-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "produtos.produto",
+    "pk": 3,
+    "fields": {
+      "nome": "Acucar 2kg",
+      "codigo_barras": "789100000003",
+      "descricao": "Pacote de acucar de 2kg.",
+      "preco_custo": "7.00",
+      "preco_venda": "11.00",
+      "quantidade_estoque": 18,
+      "estoque_minimo": 4,
+      "ativo": true,
+      "data_cadastro": "2026-01-01T12:00:00Z",
+      "data_atualizacao": "2026-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "produtos.produto",
+    "pk": 4,
+    "fields": {
+      "nome": "Cafe 500g",
+      "codigo_barras": "789100000004",
+      "descricao": "Pacote de cafe de 500g.",
+      "preco_custo": "12.00",
+      "preco_venda": "18.50",
+      "quantidade_estoque": 12,
+      "estoque_minimo": 3,
+      "ativo": true,
+      "data_cadastro": "2026-01-01T12:00:00Z",
+      "data_atualizacao": "2026-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "produtos.produto",
+    "pk": 5,
+    "fields": {
+      "nome": "Oleo de soja",
+      "codigo_barras": "789100000005",
+      "descricao": "Garrafa de oleo de soja.",
+      "preco_custo": "5.00",
+      "preco_venda": "8.00",
+      "quantidade_estoque": 25,
+      "estoque_minimo": 6,
+      "ativo": true,
+      "data_cadastro": "2026-01-01T12:00:00Z",
+      "data_atualizacao": "2026-01-01T12:00:00Z"
+    }
+  }
+]

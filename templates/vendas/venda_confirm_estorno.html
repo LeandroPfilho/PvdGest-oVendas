@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Estornar venda - Portal PDV{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-3">Estornar venda #{{ venda.pk }}</h1>
+<p>Confirme o estorno desta venda. Os produtos serao devolvidos ao estoque.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Confirmar estorno</button>
+    <a class="btn btn-outline-secondary" href="{% url 'vendas:detalhe' venda.pk %}">Cancelar</a>
+</form>
+{% endblock %}

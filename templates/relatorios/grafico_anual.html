@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Grafico anual - Portal PDV{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Grafico de vendas anuais</h1>
+</div>
+
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-3">
+        <select name="ano" class="form-select">
+            {% for ano_item in anos_disponiveis %}
+                <option value="{{ ano_item }}" {% if ano_item == ano %}selected{% endif %}>{{ ano_item }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">Filtrar</button>
+    </div>
+</form>
+
+<div class="chart-box">
+    <canvas id="graficoVendas"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Dados enviados pela view em formato JSON para o Chart.js.
+    const labels = {{ labels_json|safe }};
+    const totais = {{ totais_json|safe }};
+
+    new Chart(document.getElementById("graficoVendas"), {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Total vendido",
+                data: totais,
+                backgroundColor: "#0d6efd"
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+{% endblock %}

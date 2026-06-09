@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+venv/
+.venv/
+env/
+
+# Django
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+
+# Arquivos locais e variaveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Logs e arquivos temporarios
+*.log
+*.tmp
+*.bak
+
+# Testes e cobertura
+.coverage
+htmlcov/
+.pytest_cache/
+
+# IDEs e sistema operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Pastas auxiliares do ambiente Codex
+work/
+outputs/

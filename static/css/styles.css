@@ -1,0 +1,26 @@
+body {
+    background: #f6f7f9;
+}
+
+.card {
+    border-radius: 8px;
+}
+
+.metric-card {
+    min-height: 120px;
+}
+
+.chart-box {
+    min-height: 360px;
+}
+
+@media print {
+    .no-print,
+    .navbar {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+    }
+}

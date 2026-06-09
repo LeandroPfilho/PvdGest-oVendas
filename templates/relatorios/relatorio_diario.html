@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Relatorio diario - Portal PDV{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Fechamento diario</h1>
+    <button class="btn btn-outline-secondary no-print" onclick="window.print()">Imprimir</button>
+</div>
+
+<form method="get" class="row g-2 mb-4 no-print">
+    <div class="col-md-3">
+        <input type="date" name="data" value="{{ data_escolhida|date:'Y-m-d' }}" class="form-control">
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">Buscar</button>
+    </div>
+</form>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="card"><div class="card-body"><p class="text-muted mb-1">Total vendido</p><h2 class="h4">R$ {{ total_vendido|floatformat:2 }}</h2></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><p class="text-muted mb-1">Vendas finalizadas</p><h2 class="h4">{{ quantidade_finalizadas }}</h2></div></div></div>
+    <div class="col-md-4"><div class="card"><div class="card-body"><p class="text-muted mb-1">Vendas estornadas</p><h2 class="h4">{{ quantidade_estornadas }}</h2></div></div></div>
+</div>
+
+<h2 class="h5">Total por forma de pagamento</h2>
+<ul class="list-group mb-4">
+    {% for item in total_por_pagamento %}
+        <li class="list-group-item d-flex justify-content-between">
+            <span>{{ item.forma_pagamento }}</span>
+            <strong>R$ {{ item.total|floatformat:2 }}</strong>
+        </li>
+    {% empty %}
+        <li class="list-group-item text-muted">Nenhum valor vendido nesta data.</li>
+    {% endfor %}
+</ul>
+
+<h2 class="h5">Vendas do dia</h2>
+<div class="table-responsive mb-4">
+    <table class="table table-sm align-middle">
+        <thead><tr><th>Venda</th><th>Vendedor</th><th>Status</th><th>Pagamento</th><th>Total</th></tr></thead>
+        <tbody>
+            {% for venda in vendas %}
+                <tr>
+                    <td>#{{ venda.pk }}</td>
+                    <td>{{ venda.vendedor.username }}</td>
+                    <td>{{ venda.get_status_display }}</td>
+                    <td>{{ venda.get_forma_pagamento_display }}</td>
+                    <td>R$ {{ venda.valor_total|floatformat:2 }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" class="text-center text-muted">Nenhuma venda nesta data.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2 class="h5">Produtos mais vendidos</h2>
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead><tr><th>Produto</th><th>Quantidade</th><th>Total</th></tr></thead>
+        <tbody>
+            {% for produto in produtos_mais_vendidos %}
+                <tr>
+                    <td>{{ produto.produto__nome }}</td>
+                    <td>{{ produto.quantidade_total }}</td>
+                    <td>R$ {{ produto.total|floatformat:2 }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="3" class="text-center text-muted">Nenhum produto vendido.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

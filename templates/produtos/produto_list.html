@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Produtos - Portal PDV{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Produtos</h1>
+    <a href="{% url 'produtos:criar' %}" class="btn btn-primary">Cadastrar produto</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <input type="text" name="nome" value="{{ filtros.nome }}" class="form-control" placeholder="Nome">
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="codigo_barras" value="{{ filtros.codigo_barras }}" class="form-control" placeholder="Codigo de barras">
+    </div>
+    <div class="col-md-2">
+        <select name="ativo" class="form-select">
+            <option value="">Todos</option>
+            <option value="true" {% if filtros.ativo == "true" %}selected{% endif %}>Ativos</option>
+            <option value="false" {% if filtros.ativo == "false" %}selected{% endif %}>Inativos</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="estoque_baixo" class="form-select">
+            <option value="">Estoque</option>
+            <option value="true" {% if filtros.estoque_baixo == "true" %}selected{% endif %}>Baixo</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-outline-primary w-100" type="submit">Filtrar</button>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Codigo</th>
+                <th>Preco venda</th>
+                <th>Estoque</th>
+                <th>Status</th>
+                <th class="text-end">Acoes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+                <tr class="{% if produto.estoque_baixo %}table-warning{% endif %}">
+                    <td>
+                        {{ produto.nome }}
+                        {% if produto.estoque_baixo %}
+                            <span class="badge text-bg-warning">Estoque baixo</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ produto.codigo_barras }}</td>
+                    <td>R$ {{ produto.preco_venda|floatformat:2 }}</td>
+                    <td>{{ produto.quantidade_estoque }}</td>
+                    <td>{% if produto.ativo %}Ativo{% else %}Inativo{% endif %}</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'produtos:detalhe' produto.pk %}">Detalhes</a>
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'produtos:editar' produto.pk %}">Editar</a>
+                        <a class="btn btn-sm btn-outline-danger" href="{% url 'produtos:desativar' produto.pk %}">Desativar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6" class="text-center text-muted">Nenhum produto encontrado.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

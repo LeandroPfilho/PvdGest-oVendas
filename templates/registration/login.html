@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Portal PDV{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-3">Acessar sistema</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>
+                        <input type="text" name="username" autofocus class="form-control" id="{{ form.username.id_for_label }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.password.id_for_label }}" class="form-label">Senha</label>
+                        <input type="password" name="password" class="form-control" id="{{ form.password.id_for_label }}">
+                    </div>
+                    {% if form.errors %}
+                        <div class="alert alert-danger">Usuario ou senha invalidos.</div>
+                    {% endif %}
+                    <button class="btn btn-primary w-100" type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

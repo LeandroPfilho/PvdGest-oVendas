@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">Portal PDV</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'produtos:lista' %}">Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'vendas:criar' %}">Nova venda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'vendas:lista' %}">Historico</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'relatorios:diario' %}">Relatorio diario</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'relatorios:grafico_anual' %}">Grafico anual</a></li>
+                </ul>
+                <form method="post" action="{% url 'logout' %}" class="d-flex align-items-center gap-2">
+                    {% csrf_token %}
+                    <span class="navbar-text small">{{ user.username }}</span>
+                    <button class="btn btn-outline-light btn-sm" type="submit">Sair</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</nav>
