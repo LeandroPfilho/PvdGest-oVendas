@@ -3,14 +3,93 @@
 {% block title %}Produto - Portal PDV{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-3">{% if object %}Editar produto{% else %}Cadastrar produto{% endif %}</h1>
+<div class="page-header">
+    <div>
+        <h1 class="h3 mb-1">{% if object %}Editar produto{% else %}Cadastrar produto{% endif %}</h1>
+        <p>Organize as informacoes principais, precos e estoque do produto.</p>
+    </div>
+</div>
 
-<form method="post" class="card">
+<form method="post" class="card form-card">
     {% csrf_token %}
     <div class="card-body">
-        {{ form.as_p }}
-        <button class="btn btn-primary" type="submit">Salvar</button>
-        <a class="btn btn-outline-secondary" href="{% url 'produtos:lista' %}">Cancelar</a>
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <!-- Secao com identificacao basica do produto. -->
+        <div class="mb-4">
+            <div class="form-section-title mb-3">Informacoes principais</div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="{{ form.nome.id_for_label }}">Nome</label>
+                    {{ form.nome }}
+                    {{ form.nome.errors }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="{{ form.codigo_barras.id_for_label }}">Codigo de barras</label>
+                    {{ form.codigo_barras }}
+                    {{ form.codigo_barras.errors }}
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="{{ form.descricao.id_for_label }}">Descricao</label>
+                    {{ form.descricao }}
+                    {{ form.descricao.errors }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Secao de precos do produto. -->
+            <div class="col-lg-6">
+                <div class="app-card p-3 h-100">
+                    <div class="form-section-title mb-3">Precos</div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.preco_custo.id_for_label }}">Preco de custo</label>
+                            {{ form.preco_custo }}
+                            {{ form.preco_custo.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.preco_venda.id_for_label }}">Preco de venda</label>
+                            {{ form.preco_venda }}
+                            {{ form.preco_venda.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secao de estoque e status. -->
+            <div class="col-lg-6">
+                <div class="app-card p-3 h-100">
+                    <div class="form-section-title mb-3">Estoque e status</div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.quantidade_estoque.id_for_label }}">Quantidade em estoque</label>
+                            {{ form.quantidade_estoque }}
+                            {{ form.quantidade_estoque.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="{{ form.estoque_minimo.id_for_label }}">Estoque minimo</label>
+                            {{ form.estoque_minimo }}
+                            {{ form.estoque_minimo.errors }}
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check mt-2">
+                                {{ form.ativo }}
+                                <label class="form-check-label" for="{{ form.ativo.id_for_label }}">Produto ativo</label>
+                            </div>
+                            {{ form.ativo.errors }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-end mt-4">
+            <a class="btn btn-outline-secondary" href="{% url 'produtos:lista' %}">Cancelar</a>
+            <button class="btn btn-primary" type="submit"><i class="bi bi-check-lg me-1"></i>Salvar</button>
+        </div>
     </div>
 </form>
 {% endblock %}
