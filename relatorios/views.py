@@ -46,8 +46,16 @@ class RelatorioDiarioView(LoginRequiredMixin, GerenteOuAdminRequiredMixin, Templ
 
         contexto["data_escolhida"] = data_escolhida
         contexto["total_vendido"] = vendas_finalizadas.aggregate(total=Sum("valor_total"))["total"] or 0
-        contexto["total_por_pagamento"] = vendas_finalizadas.values("forma_pagamento").annotate(
+        total_por_pagamento = vendas_finalizadas.values("forma_pagamento").annotate(
             total=Sum("valor_total")
+        )
+        totais_pagamento = {item["forma_pagamento"]: item["total"] for item in total_por_pagamento}
+
+        contexto["total_por_pagamento"] = total_por_pagamento
+        contexto["total_dinheiro"] = totais_pagamento.get(Venda.DINHEIRO, 0)
+        contexto["total_pix"] = totais_pagamento.get(Venda.PIX, 0)
+        contexto["total_cartao"] = (
+            totais_pagamento.get(Venda.DEBITO, 0) + totais_pagamento.get(Venda.CREDITO, 0)
         )
         contexto["quantidade_finalizadas"] = vendas_finalizadas.count()
         contexto["quantidade_estornadas"] = vendas_do_dia.filter(status=Venda.ESTORNADA).count()
