@@ -3,50 +3,84 @@
 {% block title %}Detalhes da venda - Portal PDV{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Venda #{{ venda.pk }}</h1>
+<div class="page-header">
+    <div>
+        <h1 class="h3 mb-1">Venda #{{ venda.pk }}</h1>
+        <p>Dados principais, itens vendidos e total da venda.</p>
+    </div>
     <div class="d-flex gap-2">
         {% if venda.status == "aberta" %}
-            <a class="btn btn-primary" href="{% url 'vendas:adicionar_item' venda.pk %}">Adicionar itens</a>
+            <a class="btn btn-primary" href="{% url 'vendas:adicionar_item' venda.pk %}">
+                <i class="bi bi-plus-lg me-1"></i>Adicionar itens
+            </a>
         {% endif %}
         {% if venda.status == "finalizada" %}
-            <a class="btn btn-outline-danger" href="{% url 'vendas:estornar' venda.pk %}">Estornar</a>
+            <a class="btn btn-outline-danger" href="{% url 'vendas:estornar' venda.pk %}">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>Estornar
+            </a>
         {% endif %}
     </div>
 </div>
 
-<dl class="row">
-    <dt class="col-sm-3">Vendedor</dt><dd class="col-sm-9">{{ venda.vendedor.username }}</dd>
-    <dt class="col-sm-3">Data</dt><dd class="col-sm-9">{{ venda.data_venda|date:"d/m/Y H:i" }}</dd>
-    <dt class="col-sm-3">Pagamento</dt><dd class="col-sm-9">{{ venda.get_forma_pagamento_display }}</dd>
-    <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{ venda.get_status_display }}</dd>
-    <dt class="col-sm-3">Total</dt><dd class="col-sm-9">R$ {{ venda.valor_total|floatformat:2 }}</dd>
-    <dt class="col-sm-3">Observacao</dt><dd class="col-sm-9">{{ venda.observacao|default:"Sem observacao" }}</dd>
-</dl>
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="form-section-title mb-3">Dados da venda</div>
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Vendedor</dt><dd class="col-sm-8">{{ venda.vendedor.username }}</dd>
+                    <dt class="col-sm-4">Data</dt><dd class="col-sm-8">{{ venda.data_venda|date:"d/m/Y H:i" }}</dd>
+                    <dt class="col-sm-4">Pagamento</dt><dd class="col-sm-8">{{ venda.get_forma_pagamento_display }}</dd>
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8">
+                        {% if venda.status == "finalizada" %}
+                            <span class="badge text-bg-success status-badge">Finalizada</span>
+                        {% elif venda.status == "estornada" %}
+                            <span class="badge text-bg-danger status-badge">Estornada</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary status-badge">Aberta</span>
+                        {% endif %}
+                    </dd>
+                    <dt class="col-sm-4">Observacao</dt><dd class="col-sm-8">{{ venda.observacao|default:"Sem observacao" }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="sale-total h-100 d-flex flex-column justify-content-center">
+            <span>Total da venda</span>
+            <strong>R$ {{ venda.valor_total|floatformat:2 }}</strong>
+        </div>
+    </div>
+</div>
 
-<h2 class="h5">Itens da venda</h2>
-<div class="table-responsive">
-    <table class="table align-middle">
-        <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Preco unitario</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in venda.itens.all %}
+<div class="card table-card">
+    <div class="card-header bg-white">
+        <h2 class="h5 mb-0">Itens da venda</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
                 <tr>
-                    <td>{{ item.produto.nome }}</td>
-                    <td>{{ item.quantidade }}</td>
-                    <td>R$ {{ item.preco_unitario|floatformat:2 }}</td>
-                    <td>R$ {{ item.subtotal|floatformat:2 }}</td>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preco unitario</th>
+                    <th>Subtotal</th>
                 </tr>
-            {% empty %}
-                <tr><td colspan="4" class="text-muted text-center">Venda sem itens.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for item in venda.itens.all %}
+                    <tr>
+                        <td class="fw-semibold">{{ item.produto.nome }}</td>
+                        <td>{{ item.quantidade }}</td>
+                        <td>R$ {{ item.preco_unitario|floatformat:2 }}</td>
+                        <td class="fw-semibold">R$ {{ item.subtotal|floatformat:2 }}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="4" class="text-muted text-center py-4">Venda sem itens.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
