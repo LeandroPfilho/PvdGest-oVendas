@@ -3,25 +3,47 @@
 {% block title %}Grafico anual - Portal PDV{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Grafico de vendas anuais</h1>
+<div class="page-header">
+    <div>
+        <h1 class="h3 mb-1">Grafico de vendas anuais</h1>
+        <p>Use o grafico para identificar sazonalidade e meses com maior volume de vendas.</p>
+    </div>
 </div>
 
-<form method="get" class="row g-2 mb-4">
-    <div class="col-md-3">
-        <select name="ano" class="form-select">
-            {% for ano_item in anos_disponiveis %}
-                <option value="{{ ano_item }}" {% if ano_item == ano %}selected{% endif %}>{{ ano_item }}</option>
-            {% endfor %}
-        </select>
+<div class="card mb-4 no-print">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label">Ano</label>
+                <select name="ano" class="form-select">
+                    {% for ano_item in anos_disponiveis %}
+                        <option value="{{ ano_item }}" {% if ano_item == ano %}selected{% endif %}>{{ ano_item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" type="submit">
+                    <i class="bi bi-funnel me-1"></i>Filtrar
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="col-md-2">
-        <button class="btn btn-primary w-100" type="submit">Filtrar</button>
-    </div>
-</form>
+</div>
 
-<div class="chart-box">
-    <canvas id="graficoVendas"></canvas>
+<div class="card">
+    <div class="card-body">
+        <!-- Canvas usado pelo Chart.js para desenhar as vendas por mes. -->
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="metric-icon bg-primary"><i class="bi bi-bar-chart-line"></i></span>
+            <div>
+                <h2 class="h5 mb-1">Total vendido por mes em {{ ano }}</h2>
+                <p class="text-muted mb-0">Considera apenas vendas finalizadas.</p>
+            </div>
+        </div>
+        <div class="chart-box">
+            <canvas id="graficoVendas"></canvas>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -39,13 +61,26 @@
             datasets: [{
                 label: "Total vendido",
                 data: totais,
-                backgroundColor: "#0d6efd"
+                backgroundColor: "rgba(13, 110, 253, 0.72)",
+                borderColor: "#0d6efd",
+                borderWidth: 1,
+                borderRadius: 6
             }]
         },
         options: {
+            maintainAspectRatio: false,
             responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
             scales: {
-                y: { beginAtZero: true }
+                y: {
+                    beginAtZero: true,
+                    grid: { color: "rgba(148, 163, 184, 0.22)" }
+                },
+                x: {
+                    grid: { display: false }
+                }
             }
         }
     });
