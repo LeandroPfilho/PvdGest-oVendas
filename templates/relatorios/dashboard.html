@@ -3,51 +3,81 @@
 {% block title %}Dashboard - Portal PDV{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Dashboard</h1>
-    <a href="{% url 'vendas:criar' %}" class="btn btn-primary">Nova venda</a>
+<div class="page-header">
+    <div>
+        <h1 class="h3 mb-1">Dashboard</h1>
+        <p>Resumo rapido das vendas e do estoque de hoje.</p>
+    </div>
+    <a href="{% url 'vendas:criar' %}" class="btn btn-primary">
+        <i class="bi bi-cart-plus me-1"></i>Nova venda
+    </a>
 </div>
 
+<!-- Cards principais do dashboard com indicadores do dia. -->
 <div class="row g-3 mb-4">
-    <div class="col-md-3">
-        <div class="card metric-card">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card metric-card text-primary">
             <div class="card-body">
+                <span class="metric-icon bg-primary mb-3"><i class="bi bi-cash-coin"></i></span>
                 <p class="text-muted mb-1">Total vendido hoje</p>
-                <h2 class="h4 mb-0">R$ {{ total_vendido_hoje|floatformat:2 }}</h2>
+                <div class="metric-value">R$ {{ total_vendido_hoje|floatformat:2 }}</div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card metric-card">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card metric-card text-success">
             <div class="card-body">
+                <span class="metric-icon bg-success mb-3"><i class="bi bi-bag-check"></i></span>
                 <p class="text-muted mb-1">Vendas hoje</p>
-                <h2 class="h4 mb-0">{{ quantidade_vendas_hoje }}</h2>
+                <div class="metric-value">{{ quantidade_vendas_hoje }}</div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card metric-card">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card metric-card text-secondary">
             <div class="card-body">
+                <span class="metric-icon bg-secondary mb-3"><i class="bi bi-box-seam"></i></span>
                 <p class="text-muted mb-1">Produtos cadastrados</p>
-                <h2 class="h4 mb-0">{{ quantidade_produtos }}</h2>
+                <div class="metric-value">{{ quantidade_produtos }}</div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card metric-card">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card metric-card text-warning">
             <div class="card-body">
+                <span class="metric-icon bg-warning mb-3"><i class="bi bi-exclamation-triangle"></i></span>
                 <p class="text-muted mb-1">Estoque baixo</p>
-                <h2 class="h4 mb-0">{{ produtos_estoque_baixo }}</h2>
+                <div class="metric-value">{{ produtos_estoque_baixo }}</div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="list-group">
-    <a class="list-group-item list-group-item-action" href="{% url 'produtos:lista' %}">Produtos</a>
-    <a class="list-group-item list-group-item-action" href="{% url 'vendas:criar' %}">Nova venda</a>
-    <a class="list-group-item list-group-item-action" href="{% url 'vendas:lista' %}">Historico de vendas</a>
-    <a class="list-group-item list-group-item-action" href="{% url 'relatorios:diario' %}">Relatorio diario</a>
-    <a class="list-group-item list-group-item-action" href="{% url 'relatorios:grafico_anual' %}">Grafico anual</a>
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="h5 mb-1">Atalhos rapidos</h2>
+                <p class="text-muted mb-0">Acesse as principais rotinas do PDV.</p>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-sm-6 col-lg">
+                <a class="quick-action" href="{% url 'produtos:criar' %}"><i class="bi bi-plus-square me-2"></i>Cadastrar produto</a>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <a class="quick-action" href="{% url 'vendas:criar' %}"><i class="bi bi-cart-plus me-2"></i>Nova venda</a>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <a class="quick-action" href="{% url 'vendas:lista' %}"><i class="bi bi-receipt me-2"></i>Ver historico</a>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <a class="quick-action" href="{% url 'relatorios:diario' %}"><i class="bi bi-calendar-check me-2"></i>Relatorio diario</a>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <a class="quick-action" href="{% url 'relatorios:grafico_anual' %}"><i class="bi bi-bar-chart me-2"></i>Grafico anual</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
