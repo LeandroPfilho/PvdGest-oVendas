@@ -3,14 +3,43 @@
 {% block title %}Nova venda - Portal PDV{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-3">Nova venda</h1>
-
-<form method="post" class="card">
-    {% csrf_token %}
-    <div class="card-body">
-        {{ form.as_p }}
-        <button class="btn btn-primary" type="submit">Criar venda</button>
-        <a class="btn btn-outline-secondary" href="{% url 'vendas:lista' %}">Cancelar</a>
+<div class="page-header">
+    <div>
+        <h1 class="h3 mb-1">Nova venda</h1>
+        <p>Informe a forma de pagamento para abrir uma nova venda no caixa.</p>
     </div>
-</form>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <form method="post" class="card form-card">
+            {% csrf_token %}
+            <div class="card-header">Dados da venda</div>
+            <div class="card-body">
+                {{ form.as_p }}
+                <div class="d-flex gap-2 justify-content-end">
+                    <a class="btn btn-outline-secondary" href="{% url 'vendas:lista' %}">Cancelar</a>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-cart-plus me-1"></i>Criar venda
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-body">
+                <!-- Painel visual simples para reforcar o fluxo de caixa. -->
+                <span class="metric-icon bg-success mb-3"><i class="bi bi-cash-register"></i></span>
+                <h2 class="h5">Fluxo da venda</h2>
+                <p class="text-muted mb-3">Depois de criar a venda, adicione os produtos, confira o total e finalize o atendimento.</p>
+                <ol class="mb-0">
+                    <li>Criar venda</li>
+                    <li>Adicionar produtos</li>
+                    <li>Finalizar venda</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
